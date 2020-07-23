@@ -1,0 +1,29 @@
+import pandas as pd
+import numpy as np
+
+# 创建DataFrame的方式
+# 1.字典创建
+df1 = pd.DataFrame(data={"第一列": [1, 2, 3],
+                         "第二列": [4, 5, 6],
+                         "第三列": [7, 8, 9]})
+
+# 2.numpy创建
+df2 = pd.DataFrame(data=np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
+                   columns=["第一列", "第二列", "第三列"])
+
+# DataFrame常用属性
+print(df1.columns)  # 列标题列表
+print(df1.axes)  # 轴标题列表
+print(df1.shape)  # 行数*列数
+print(df1.ndim)  # 维数
+print(df1.size)  # 返回元素数量
+print(df1.values)  # 以numpy形式返回数据中的数据
+
+# DataFrame常用方法
+df1.abs()  # 返回所有数据的绝对值
+df1.drop_duplicates()  # 删除重复值
+df1.dropna()  # 删除空值
+df1.isnull()  # 检测空值
+df1.notnull()  # 检测非空值
+
+
