@@ -25,5 +25,11 @@ df1.drop_duplicates()  # 删除重复值
 df1.dropna()  # 删除空值
 df1.isnull()  # 检测空值
 df1.notnull()  # 检测非空值
+df1.info()
+print(df1.iloc[:3])  # 根据序号定位
+print(df1.loc[:"第一列"])
 
+# DataFrame修改列名
+df1.rename(columns={"第一列": "第1列", "第二列": "第2列", "第三列": "第3列"}, inplace=True)
 
+df2.rename(columns=lambda x: x.replace("列", "个"), inplace=True)  # 用lambda表达式更改列名
