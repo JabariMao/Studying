@@ -15,6 +15,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
+
 # %%[markdown]
 # **加载数据**
 path = r"E:\Git_Workplace\handson-ml2\datasets\housing\housing.csv"
@@ -36,8 +37,7 @@ housing.describe()
 # 每个属性作图
 housing.hist(bins=50, figsize=(20, 15))
 # %% 设置训练集和测试集(普通随机抽样)
-train_data, test_data = train_test_split(
-    housing, test_size=0.2, random_state=42)
+train_data, test_data = train_test_split(housing, test_size=0.2, random_state=42)
 
 # %%[markdown]
 # **更进一步考虑抽样方式，普通抽样可能会导致抽样偏差，所以采用分层抽样，考虑每个类别的比例，按照比例对样本进行抽样，这样抽取的测试集可以很好的反应全体样本的真实情况。**
@@ -51,11 +51,10 @@ split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(housing, housing["income_cat"]):
     strat_train_set = housing.loc[train_index]
     strat_test_set = housing.loc[test_index]
-strat_test_set["income_cat"].value_counts()/len(strat_test_set)
+strat_test_set["income_cat"].value_counts() / len(strat_test_set)
 
 for set_ in (strat_train_set, strat_test_set):
     set_.drop("income_cat", axis=1, inplace=True)
-
 
 # %%[markdowm]
 # **开始探索数据**
@@ -64,7 +63,7 @@ housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.1)
 
 # %%
 housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
-             s=housing["population"]/100, label="population", figsize=(10, 7),
+             s=housing["population"] / 100, label="population", figsize=(10, 7),
              c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True)
 plt.legend()
 
@@ -78,23 +77,20 @@ attributes = ["median_house_value", "median_income",
               "total_rooms", "housing_median_age"]
 scatter_matrix(housing[attributes], figsize=[12, 8])
 
-
 # %%
 housing.plot(kind="scatter", x="median_income",
              y="median_house_value", alpha=0.1)
 
-
 # %%
 housing["rooms_per_household"] = housing["total_rooms"] / housing["households"]
 housing["bedrooms_per_room"] = housing["total_bedrooms"] / \
-    housing["total_rooms"]
+                               housing["total_rooms"]
 housing["population_per_household"] = housing["population"] / \
-    housing["households"]
+                                      housing["households"]
 # %%
 
 corr_matrix = housing.corr()
 corr_matrix["median_house_value"].sort_values(ascending=False)
-
 
 # %%
 # 准备数据
@@ -102,7 +98,6 @@ housing = strat_train_set.drop(columns=["median_house_value"], axis=1)
 housing_labels = strat_train_set["median_house_value"].copy()
 median = housing["total_bedrooms"].median()
 housing["total_bedrooms"].fillna(median, inplace=True)
-
 
 # %%
 # 用scikit-leran处理空值
@@ -112,9 +107,7 @@ imputer.fit(housing_num)
 imputer.statistics_
 # %%
 X = imputer.transform(housing_num)
-housing_tr = pd.DataFrame(
-    X, columns=housing_num.columns, index=housing_num.index)
-
+housing_tr = pd.DataFrame(X, columns=housing_num.columns, index=housing_num.index)
 
 # %%
 # 处理分类数据
@@ -131,13 +124,11 @@ cat_encoder = OneHotEncoder()
 housing_cat_1hot = cat_encoder.fit_transform(housing_cat)
 housing_cat_1hot.toarray()
 
-
 # %%
 # 特征缩放
 num_pipeline = Pipeline([("imputer", SimpleImputer(strategy="median")),
                          ("std_scaler", StandardScaler())])
 housing_num_tr = num_pipeline.fit_transform(housing_num)
-
 
 # %%
 num_attribs = list(housing_num)
@@ -147,7 +138,6 @@ full_pipeline = ColumnTransformer([("num", num_pipeline, num_attribs),
                                    ("cat", OneHotEncoder(), cat_attribs)
                                    ])
 housing_prepared = full_pipeline.fit_transform(housing)
-
 
 # %%
 # 开始预测
@@ -159,7 +149,6 @@ some_data = housing.iloc[:5]
 some_labels = housing_labels.iloc[:5]
 some_data_prepared = full_pipeline.transform(some_data)
 lin_reg.predict(some_data_prepared)
-
 
 # %%
 list(some_labels)
