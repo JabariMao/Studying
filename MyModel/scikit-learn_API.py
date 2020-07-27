@@ -1,3 +1,12 @@
+"""
+scikit-learn学习
+    1.model_selection
+        train_test_split
+    2.linear_model
+    3.metrics
+"""
+
+
 # 监督学习
 # Linear Model 线性模型
 # %%
