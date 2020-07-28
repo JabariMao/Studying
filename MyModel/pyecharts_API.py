@@ -1,10 +1,36 @@
 # -*- coding: utf-8 -*-
+"""
+直方图：Bar
+折线图: Line
+箱型图：Box
+散点图：Scatter
+涟漪效果散点图:effectScatter
+k线图:Kline()
+饼图:Pie()
+水球图：Liquid()
+3D散点图:scatter3D()
+3D折线图：line3D()
+3D直方图：Bar3D()
+3D地球:MapGlobe
+
+
+
+组合图标：
+    时间线：Timeline()
+    Tab选项卡Tab()
+    顺序多图：Page()
+    并行多图：Grid()
+
+
+
+"""
 
 from pyecharts import options as opts  # 配置项
-from pyecharts.charts import Bar  # 条形图/柱状图
+from pyecharts.charts import *
 from pyecharts.faker import Faker  # 数据生成
 
 x, y = Faker.choose(), Faker.values()
+print(x)
 a = (Bar(init_opts=opts.InitOpts(height="800px",  # 定义高度
                                  width="1600px",  # 定义宽度
                                  theme=opts.global_options.ThemeType.DARK,  # 设置主题
@@ -37,3 +63,4 @@ a = (Bar(init_opts=opts.InitOpts(height="800px",  # 定义高度
                       )
      .render()  # 渲染
      )
+
